@@ -1,0 +1,17 @@
+# 服务器配置
+server:
+  port: 6678
+  servlet:
+    context-path: /api/admin
+
+# redis 配置
+spring:
+  redis:
+    url: 39.101.76.39
+    password: 11223344
+    database: 10
+    connect-timeout: 15000
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 3
