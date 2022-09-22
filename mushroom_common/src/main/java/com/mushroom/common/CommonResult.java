@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Data
 public final class CommonResult {
-    private final int code;                 // 响应码
+    private int code;                 // 响应码
     private String message;                 // 响应消息
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")    // 指定日期的格式和时区
     private final Date responseTime;        // 响应时间
@@ -18,15 +18,27 @@ public final class CommonResult {
     private final Map<String, Object> data = new HashMap<>(); // 响应数据
 
     // 构造方法只接受 ResultCodeEnum 枚举类型，为了更好的管理和统一
-    public CommonResult(ResultCodeEnum resultCode) {
+    private CommonResult(ResultCodeEnum resultCode) {
         this.code = resultCode.code;                // 设置枚举中的响应码
         this.message = resultCode.defaultMessage;   // 设置枚举中的默认消息
         this.responseTime = new Date();             // 设置响应时间
     }
+    // 请求只有两种情况：成功和失败
+    public static CommonResult OK() {
+        return new CommonResult(ResultCodeEnum.OK);
+    }
+    public static CommonResult ERROR() {
+        return new CommonResult(ResultCodeEnum.ERROR);
+    }
 
-    // 响应的 message 可以修改
+    // 修改响应的 message
     public CommonResult message(String message) {
         this.message = message;
+        return this;
+    }
+    // 修改响应的 code
+    public CommonResult code(int code) {
+        this.code = code;
         return this;
     }
 

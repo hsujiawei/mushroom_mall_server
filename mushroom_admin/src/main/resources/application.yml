@@ -7,11 +7,33 @@ server:
 # redis 配置
 spring:
   redis:
-    url: 39.101.76.39
+    url: redis://39.101.76.39:6379
     password: 11223344
     database: 10
     connect-timeout: 15000
-    jedis:
+    lettuce:
       pool:
-        max-active: 8
-        max-idle: 3
+        max-active: 10
+        enabled: true
+        min-idle: 0
+        max-idle: 10
+
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://39.101.76.39:3306/mushroom_mall?serverTimezone=UTC
+    username: root
+    password: Hsu_24464
+    hikari:                       # 使用默认的数据库连接池
+      maximum-pool-size: 12       # 连接池的最多有 20 个连接
+      minimum-idle: 10            # 最小空闲连接，默认为 10
+      idle-timeout: 600000        # 空闲连接超时时间，600000 = 10 min
+      connection-timeout: 20000   # 20 秒超时
+  #---------------------------------------------
+  jpa:                            # JPA 配置
+    show-sql: true                # 查看 JPA 执行的 SQL 语句 (开发时显示)
+    hibernate:
+      ddl-auto: update            # 自动根据实体生成数据表
+
+
+

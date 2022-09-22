@@ -2,6 +2,7 @@ package com.mushroom.admin.controller;
 
 import com.mushroom.common.CommonResult;
 import com.mushroom.common.ResultCodeEnum;
+import com.mushroom.common.exceptions.UserNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,6 +15,15 @@ public class HelloController {
 
     @GetMapping("/data")
     public CommonResult data() {
-       return new CommonResult(ResultCodeEnum.OK).data("user", "Nice");
+
+        return CommonResult.ERROR();
+    }
+
+    @GetMapping("/user")
+    public String getUser(int userId) {
+        if (userId < 10)
+            throw new UserNotFoundException(ResultCodeEnum.USER_NOT_FOUND);
+
+        return "Success";
     }
 }
