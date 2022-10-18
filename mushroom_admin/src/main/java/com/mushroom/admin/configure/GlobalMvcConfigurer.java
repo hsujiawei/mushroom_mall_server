@@ -17,6 +17,7 @@ public class GlobalMvcConfigurer implements WebMvcConfigurer {
                 .allowedOriginPatterns("*")        // 允许所有来源访问，携带请求凭证时需要使用该方法来指定 original
                 .allowedMethods("*")               // 允许所有方法跨域调用
                 .allowedHeaders("*")               // 放行所有原始的请求头
+                .exposedHeaders("Authorization")    // 将 Authorization 暴露出去
                 .allowCredentials(true);            // 运行跨域发送 Cookie
     }
 }

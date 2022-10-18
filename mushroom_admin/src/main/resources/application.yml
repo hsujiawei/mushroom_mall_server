@@ -3,11 +3,29 @@ server:
   port: 6678
   servlet:
     context-path: /api/admin
+    session:
+      cookie:
+        secure: true # 这个也要
+        same-site: none # 关闭 cookie 同站写入
+        http-only: true
+  #---------------------------------------------
+  # 开启 SSL 配置 (HTTPS)
+  ssl:
+    enabled: true
+    key-store: classpath:mushroom_mall.keystore
+    key-store-password: 11223344
+  # 开启 http 2
+  http2:
+    enabled: true
 
+#---------------------------------------------
 # redis 配置
 spring:
+  main:
+    allow-bean-definition-overriding: true
   redis:
-    url: redis://39.101.76.39:6379
+    host: 47.108.202.58
+    port: 6379
     password: 11223344
     database: 10
     connect-timeout: 15000
@@ -15,15 +33,22 @@ spring:
       pool:
         max-active: 10
         enabled: true
-        min-idle: 0
+        min-idle: 2
         max-idle: 10
-
+  cache:
+    type: redis
+    redis:
+      # 指定缓存前缀
+      key-prefix: 'SYSTEM:MUSH:CACHING:CATEGORY:'
+      # 使用缓存前缀
+      use-key-prefix: true
+  #---------------------------------------------
   # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://39.101.76.39:3306/mushroom_mall?serverTimezone=UTC
+    url: jdbc:mysql:///mushroom_mall?serverTimezone=UTC
     username: root
-    password: Hsu_24464
+    password: root
     hikari:                       # 使用默认的数据库连接池
       maximum-pool-size: 12       # 连接池的最多有 20 个连接
       minimum-idle: 10            # 最小空闲连接，默认为 10
@@ -35,5 +60,20 @@ spring:
     hibernate:
       ddl-auto: update            # 自动根据实体生成数据表
 
+  #---------------------------------------------
+  # 热部署
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
 
-
+# 自定义配置
+mushroom:
+  oss:
+    access-id:
+    access-key:
+    endpoint:
+    bucket:
+    host:
+    # dir: / # 不能以 / 来作为路径
+    #callback-url: 上传成功后的回调地址

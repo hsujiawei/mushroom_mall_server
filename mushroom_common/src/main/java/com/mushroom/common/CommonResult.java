@@ -23,12 +23,22 @@ public final class CommonResult {
         this.message = resultCode.defaultMessage;   // 设置枚举中的默认消息
         this.responseTime = new Date();             // 设置响应时间
     }
-    // 请求只有两种情况：成功和失败
+
+    // 通用请求成功
     public static CommonResult OK() {
         return new CommonResult(ResultCodeEnum.OK);
     }
+    // 可自定义传入 ResultCodeEnum 的请求成功
+    public static CommonResult OK(ResultCodeEnum resultCodeEnum) {
+        return new CommonResult(resultCodeEnum);
+    }
+    // 通用请求失败
     public static CommonResult ERROR() {
         return new CommonResult(ResultCodeEnum.ERROR);
+    }
+    // 可指定 ResultCodeEnum 的请求失败
+    public static CommonResult ERROR(ResultCodeEnum resultCodeEnum) {
+        return new CommonResult(resultCodeEnum);
     }
 
     // 修改响应的 message
